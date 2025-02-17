@@ -1,0 +1,111 @@
+/* Home.css */
+
+/* Overall Container */
+.home-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(246, 243, 252, 0.923); /* Light Translucent Violet Background */
+  color: #141414; /* Dark Gray Text */
+  text-align: center;
+}
+
+/* Background Animation */
+.background-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Keeps it behind the content */
+  opacity: 0.15; /* Adjust transparency */
+  pointer-events: none; /* Prevents interaction */
+}
+
+/* Header Section */
+.header {
+  padding: 40px 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #141414; /* Dark Gray Title Text */
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #156f60; /* Soft Teal for Subtitle */
+}
+
+.cta-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff; /* White Text for Button */
+  background-color: #ff4081; /* Light Pink Accent */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #e91e63; /* Darker Pink on Hover */
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  width: 80%;
+}
+
+.feature {
+  background-color: rgba(255, 255, 255, 0.755); /* Light Background with Transparency */
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  backdrop-filter: blur(5px); /* Soft blur for the feature box */
+  transition: 0.3s ease;
+  color: #141414; /* Dark Gray Text for Features */
+}
+
+.feature:hover {
+  transform: scale(1.05);
+  background-color: rgba(255, 255, 255, 0.2); /* Lighter Background on Hover */
+}
+
+/* Footer Section */
+.footer {
+  margin-top: 40px;
+  padding: 20px;
+  font-size: 0.9rem;
+  color:black; /* Soft Lavender for Footer Text */
+  background-color:rgba(246, 243, 252, 0.923); /* Dark Charcoal Gray for Footer */
+}
+
+.social-media {
+  margin-top: 10px;
+}
+
+.social-link {
+  color: black;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.social-link:hover {
+  color: #ff4081; /* Light Pink Hover Effect */
+}
