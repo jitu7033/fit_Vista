@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {useNavigate } from "react-router-dom";
@@ -19,20 +20,21 @@ const Login = () => {
       return;
     }
 
-   history("/landing") // Redirect to landing page
+  //  history("/landing") // Redirect to landing page
 
-    // try {
-    //   const response = await axios.post("http://localhost:5000/api/auth/login", {
-    //     email,
-    //     password,
-    //   });
-    //   // On successful login, store token and redirect
-    //   localStorage.setItem("token", response.data.token); // Store the token
-    //   history.push("/landing"); // Redirect to landing page
-    // } catch (err) {
-    //   console.error(err.response.data.message);
-    //   setError(err.response.data.message); // Show error message from backend
-    // }
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
+      // On successful login, store token and redirect
+      localStorage.setItem("token", response.data.token); // Store the token
+      localStorage.setItem("user", JSON.stringify(response.data.user)); // Store the user details
+      history("/landing"); // Redirect to landing page
+    } catch (err) {
+      console.error(err.response.data.message);
+      setError(err.response.data.message); // Show error message from backend
+    }
   };
 
   return (

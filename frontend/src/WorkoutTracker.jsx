@@ -141,70 +141,70 @@
 
 
 
-import React, { useEffect, useRef, useState } from 'react';
-import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-backend-webgl';
-import * as posedetection from '@tensorflow-models/pose-detection';
-import io from 'socket.io-client';
-import { drawKeypoints, drawSkeleton } from './poseUtils';
+// import React, { useEffect, useRef, useState } from 'react';
+// import * as tf from '@tensorflow/tfjs';
+// import '@tensorflow/tfjs-backend-webgl';
+// import * as posedetection from '@tensorflow-models/pose-detection';
+// import io from 'socket.io-client';
+// import { drawKeypoints, drawSkeleton } from './poseUtils';
 
-const socket = io('http://localhost:5000');
+// const socket = io('http://localhost:5000');
 
-export default function FlexItOutPlatform() {
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const [pushupCount, setPushupCount] = useState(0);
-  const [previousPosition, setPreviousPosition] = useState('up');
-  const [leaderboard, setLeaderboard] = useState([]);
+// export default function FlexItOutPlatform() {
+//   const videoRef = useRef(null);
+//   const canvasRef = useRef(null);
+//   const [pushupCount, setPushupCount] = useState(0);
+//   const [previousPosition, setPreviousPosition] = useState('up');
+//   const [leaderboard, setLeaderboard] = useState([]);
 
-  useEffect(() => {
-    initializeModel().then(startCamera);
-    socket.on('leaderboardUpdate', setLeaderboard);
-  }, []);
+//   useEffect(() => {
+//     initializeModel().then(startCamera);
+//     socket.on('leaderboardUpdate', setLeaderboard);
+//   }, []);
 
-  const initializeModel = async () => {
-    await tf.ready();
-    await tf.setBackend('webgl');
-  };
+//   const initializeModel = async () => {
+//     await tf.ready();
+//     await tf.setBackend('webgl');
+//   };
 
-  const startCamera = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    videoRef.current.srcObject = stream;
-    const detector = await posedetection.createDetector(posedetection.SupportedModels.MoveNet);
-    trackPushups(detector);
-  };
+//   const startCamera = async () => {
+//     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+//     videoRef.current.srcObject = stream;
+//     const detector = await posedetection.createDetector(posedetection.SupportedModels.MoveNet);
+//     trackPushups(detector);
+//   };
 
-  const trackPushups = (detector) => {
-    const ctx = canvasRef.current.getContext('2d');
+//   const trackPushups = (detector) => {
+//     const ctx = canvasRef.current.getContext('2d');
 
-    setInterval(async () => {
-      const poses = await detector.estimatePoses(videoRef.current);
-      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-      if (poses.length > 0) {
-        drawKeypoints(poses[0].keypoints, ctx);
-        drawSkeleton(poses[0].keypoints, ctx);
-        const nose = poses[0].keypoints.find(point => point.name === 'nose');
+//     setInterval(async () => {
+//       const poses = await detector.estimatePoses(videoRef.current);
+//       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+//       if (poses.length > 0) {
+//         drawKeypoints(poses[0].keypoints, ctx);
+//         drawSkeleton(poses[0].keypoints, ctx);
+//         const nose = poses[0].keypoints.find(point => point.name === 'nose');
 
-        if (nose && nose.y !== undefined) {
-          if (nose.y > 300 && previousPosition === 'up') {
-            setPreviousPosition('down');
-          } else if (nose.y < 200 && previousPosition === 'down') {
-            setPreviousPosition('up');
-            setPushupCount(count => count + 1);
-            socket.emit('updateScore', { username: 'User1', score: pushupCount + 1 });
-          }
-        }
-      }
-    }, 100);
-  };
+//         if (nose && nose.y !== undefined) {
+//           if (nose.y > 300 && previousPosition === 'up') {
+//             setPreviousPosition('down');
+//           } else if (nose.y < 200 && previousPosition === 'down') {
+//             setPreviousPosition('up');
+//             setPushupCount(count => count + 1);
+//             socket.emit('updateScore', { username: 'User1', score: pushupCount + 1 });
+//           }
+//         }
+//       }
+//     }, 100);
+//   };
 
-  return (
-    <div className="p-4">
-      <video ref={videoRef} autoPlay playsInline className="rounded-xl w-full" />
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
-      <h2 className="text-xl font-bold mt-4">Push-up Count: {pushupCount}</h2>
-      <h3 className="text-lg font-bold mt-2">Leaderboard:</h3>
-      <ul>{leaderboard.map((p, i) => (<li key={i}>{p.username}: {p.score}</li>))}</ul>
-    </div>
-  );
-}
+//   return (
+//     <div className="p-4">
+//       <video ref={videoRef} autoPlay playsInline className="rounded-xl w-full" />
+//       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
+//       <h2 className="text-xl font-bold mt-4">Push-up Count: {pushupCount}</h2>
+//       <h3 className="text-lg font-bold mt-2">Leaderboard:</h3>
+//       <ul>{leaderboard.map((p, i) => (<li key={i}>{p.username}: {p.score}</li>))}</ul>
+//     </div>
+//   );
+// }

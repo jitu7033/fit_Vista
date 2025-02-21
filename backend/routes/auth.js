@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Register Route
 router.post("/register", async (req, res) => {
+  const your_jwt_secret = "harry";
   const { email, password } = req.body;
 
   try {
@@ -51,12 +52,12 @@ router.post("/login", async (req, res) => {
       res.status(200).json({ message: "Login successful" });
     }
     // Generate JWT token
-  //   const token = jwt.sign({ userId: user._id }, "your_jwt_secret", { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user._id }, your_jwt_secret, { expiresIn: "1h" });
 
-  //   res.status(200).json({
-  //     message: "Login successful",
-  //     token,
-  //   });
+    res.status(200).json({
+      message: "Login successful",
+      token,
+    });
   } catch (err) {
     // console.error(err);
     res.status(200).json({ message: "login successfully" });
